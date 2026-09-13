@@ -118,10 +118,15 @@ html,body{background:var(--bg)}
 .refs{font-size:.35em;line-height:1.4;columns:3;column-gap:28px;word-break:break-word}
 .refs p{margin:0 0 .5em;padding-left:1.4em;text-indent:-1.4em;break-inside:avoid}
 /* pie fijo */
-.pie{position:fixed;left:22px;right:22px;bottom:16px;z-index:30;display:flex;justify-content:space-between;align-items:center;font:300 .5em var(--sans);color:var(--mute);pointer-events:none}
+.pie{position:fixed;left:28px;right:28px;bottom:18px;z-index:30;display:flex;justify-content:space-between;align-items:center;font:400 clamp(13px,1.3vw,17px) var(--sans);color:var(--mute);pointer-events:none}
+.pie .num{position:absolute;left:50%;transform:translateX(-50%)}
 .pie>*{pointer-events:auto}
-.pie a{color:var(--ink);text-decoration:none;font-weight:500;padding:5px 11px;border:1px solid var(--line);border-radius:999px;margin-right:12px}
-.pie .firma{font-family:var(--serif);font-style:italic;font-size:1.25em;color:var(--ink)}
+.pie a{color:var(--ink);text-decoration:none;font-weight:600;padding:8px 18px;border:1px solid rgba(255,255,255,.35);border-radius:999px;margin-right:14px;font-size:1em}
+.pie a:hover{border-color:#fff}
+.pie .num{font-family:var(--mono);font-size:1em;color:var(--ink);letter-spacing:.06em;text-align:center}
+.pie .num b{font-weight:600}
+.pie .firma{font-family:var(--serif);font-style:italic;font-size:clamp(18px,1.9vw,25px);color:var(--ink);text-align:right}
+@media (max-width:700px){.pie{grid-template-columns:auto 1fr auto;left:12px;right:12px;bottom:10px}.pie .ayuda{display:none}.pie a{margin-right:0}}
 /* barra de marcas: aparece sólo dentro de la pila de una marca, para saltar a las otras dos o al menú */
 .navm{position:fixed;top:16px;right:22px;z-index:30;display:none;gap:8px;align-items:center;font:500 13px var(--sans)}
 .navm.on{display:flex}
@@ -132,8 +137,10 @@ html,body{background:var(--bg)}
 @media (max-width:700px){.navm{top:8px;right:8px;font-size:11px;gap:5px}.navm a{padding:4px 9px}.navm span{display:none}}
 .reveal .progress{color:var(--magenta);height:3px}
 .reveal .progress span{background:linear-gradient(90deg,var(--g1),var(--g2),var(--g3))}
-.reveal .slide-number{font-family:var(--mono);background:transparent;color:var(--mute);font-size:.45em;right:auto;left:36%;bottom:18px}
+.reveal .slide-number{display:none}
 .reveal .controls{color:rgba(255,255,255,.45)}
+.reveal .controls[data-controls-layout="edges"] .navigate-down{bottom:62px!important}
+.reveal .controls[data-controls-layout="edges"] .navigate-up{top:6px!important}
 @media print{.pie{display:none}}
 </style>
 </head>
@@ -492,14 +499,15 @@ html,body{background:var(--bg)}
 </nav>
 
 <div class="pie">
-  <span><a href="#/menu">Menú</a>← → para moverte · ↓ dentro de cada marca · Esc para ver todo</span>
+  <span><a href="#/menu">Menú</a><span class="ayuda">← → para moverte · ↓ dentro de cada marca · Esc para ver todo</span></span>
+  <span class="num" id="num"><b>1</b> / 19</span>
   <span class="firma">By Hiram Acevedo</span>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/reveal.min.js"></script>
 <script>
 Reveal.initialize({
-  hash:true, slideNumber:'c/t', progress:true, controls:true, controlsTutorial:false,
+  hash:true, slideNumber:false, progress:true, controls:true, controlsTutorial:false,
   transition:'fade', backgroundTransition:'none', width:1280, height:720, margin:0.05, center:false, touch:true, controlsLayout:'edges',
 });
 // menú y barra de marcas: cada enlace lleva a la PRIMERA diapositiva de su marca, aunque ya se haya visitado otra
@@ -526,8 +534,14 @@ function pintarNav(){
   nav.classList.toggle('on',!!m);
   nav.querySelectorAll('a[data-m]').forEach(a=>a.classList.toggle('actual',a.dataset.m===m));
 }
-Reveal.on('ready',()=>{pintarNav();setTimeout(pintarNav,400);}); Reveal.on('slidechanged',pintarNav);
-window.addEventListener('hashchange',()=>setTimeout(pintarNav,100));
+// número de diapositiva propio, centrado en el pie
+function pintarNum(){
+  const n=document.getElementById('num'); if(!n) return;
+  n.innerHTML='<b>'+(Reveal.getSlidePastCount()+1)+'</b> / '+Reveal.getTotalSlides();
+}
+function pintarTodo(){pintarNav();pintarNum();}
+Reveal.on('ready',()=>{pintarTodo();setTimeout(pintarTodo,400);}); Reveal.on('slidechanged',pintarTodo);
+window.addEventListener('hashchange',()=>setTimeout(pintarTodo,100));
 // pestañas
 document.querySelectorAll('[data-tabs]').forEach(tabs=>{
   tabs.addEventListener('click',e=>{
