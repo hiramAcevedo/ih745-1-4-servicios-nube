@@ -181,7 +181,7 @@ html,body{background:var(--bg)}
   <div class="dos">
     <div>
       <p>Chopra (2017) define la nube como un grupo de servidores interconectados, públicos o privados, cuyos datos y aplicaciones quedan al alcance de un grupo de usuarios a través de la red, mientras "la infraestructura y la tecnología de la nube no son visibles para el usuario final" (p. 1). La misma página añade la propiedad que explica todo lo que sigue: el sistema es elástico, crece y se contrae según la necesidad del cliente.</p>
-      <p class="fragment">De la elasticidad sale la forma de cobrar. El autor compara el modelo con el medidor de luz: "se te cobra sólo por el tiempo en que usas los servicios de la nube" (Chopra, 2017, p. 13). Por eso ninguna de las nueve celdas de costo de esta presentación es una licencia: son dólares por hora de nodo, por tebibyte consultado o por usuario al mes.</p>
+      <p class="fragment">De la elasticidad sale la forma de cobrar. El autor compara el modelo con el medidor de luz: "se te cobra sólo por el tiempo en que usas los servicios de la nube" (Chopra, 2017, p. 13). Por eso el Big data y las bases de datos de esta presentación se cobran por hora de nodo, por tebibyte consultado o por capacidad; sólo los tableros conservan la lógica de licencia, por usuario al mes.</p>
     </div>
     <div class="panel dato"><span class="n">16.9707</span><span class="l">pesos por dólar, FIX Banxico del 11-09-2026, con el que se convierte cada precio de este deck</span></div>
   </div>
@@ -211,13 +211,13 @@ html,body{background:var(--bg)}
         <li><span class="nivel">Migración de datos:</span> los datos se mueven de un proveedor a otro.</li>
         <li><span class="nivel">Administración de cargas:</span> herramientas propias manejan recursos de varios proveedores.</li>
       </ol>
-      <p>En cada marca, la pestaña Interoperabilidad se ordena así: formatos y estándares abiertos (casos 3 y 4), conectores y drivers (caso 4) y fuentes externas que se consultan sin mover datos (caso 3).</p>
+      <p>En cada marca, la pestaña Interoperabilidad se ordena así: formatos y estándares abiertos (casos 3 y 4), conectores y drivers (caso 4) e integración con fuentes externas, sea por consulta federada o por réplica (caso 3).</p>
     </div>
     <div>
       <h3>Hardware mínimo, en dos niveles</h3>
       <p>La pregunta viene del software instalable, y en la nube el hardware lo pone el proveedor: la infraestructura dinámica hace que "el hardware y el software subyacentes respondan dinámicamente a los cambios de demanda" (Chopra, 2017, p. 24). Por eso se contesta en dos niveles.</p>
       <p><span class="nivel">Nivel 1, lo que pone el usuario:</span> el portal web de autoservicio que Chopra lista como requisito de todo servicio en la nube (p. 24), es decir, un navegador soportado y conexión a internet.</p>
-      <p><span class="nivel">Nivel 2, lo que reserva el proveedor:</span> la unidad más pequeña que deja contratar (nodo, instancia o capacidad), con sus vCPU y memoria.</p>
+      <p><span class="nivel">Nivel 2, lo que reserva el proveedor:</span> la unidad más pequeña que deja contratar (nodo, instancia o capacidad), con sus vCPU y memoria. Ese mínimo es la referencia de entrada, no la configuración de rendimiento óptimo: el tamaño adecuado depende del volumen de datos, la concurrencia y el tipo de consultas, y en las tres marcas se ajusta hacia arriba sin cambiar de servicio.</p>
     </div>
   </div>
 </section>
@@ -265,7 +265,7 @@ html,body{background:var(--bg)}
       <div>
       <p><span class="k">Formatos y estándares abiertos.</span>Redshift está basado en PostgreSQL y habla SQL; con Redshift Spectrum consulta archivos en S3 en Parquet, ORC, Avro, JSON y CSV sin cargarlos, con catálogo en AWS Glue, Athena o un metastore de Hive. Es el caso de migración de datos de Chopra: los archivos siguen en formato abierto.</p>
       <p><span class="k">Conectores y drivers.</span>Drivers JDBC, ODBC y Python propios de Redshift, más la Data API (HTTPS sin conexión persistente). RDS se conecta con cualquier cliente estándar del motor, por endpoint DNS y puerto 5432 en PostgreSQL.</p>
-      <p><span class="k">Fuentes sin mover datos.</span>Consultas federadas de Redshift a RDS y Aurora (PostgreSQL y MySQL) e integraciones zero-ETL desde RDS, DynamoDB, Salesforce, SAP y ServiceNow. Quick Sight se conecta a 29 almacenes relacionales, entre ellos Redshift, Athena, S3, Snowflake, BigQuery y PostgreSQL, y se embebe en aplicaciones con su SDK de JavaScript.</p>
+      <p><span class="k">Integración con fuentes externas.</span>Consultas federadas de Redshift a RDS y Aurora (PostgreSQL y MySQL) e integraciones zero-ETL desde RDS, DynamoDB, Salesforce, SAP y ServiceNow. Quick Sight se conecta a 29 almacenes relacionales, entre ellos Redshift, Athena, S3, Snowflake, BigQuery y PostgreSQL, y se embebe en aplicaciones con su SDK de JavaScript.</p>
       <p class="fuente">Fuente: documentación oficial de Redshift, RDS y Quick Sight, consultada el 12-09-2026.</p>
       </div>
       <div class="panel dato"><span class="n">29</span><span class="l">almacenes relacionales a los que se conecta Quick Sight, de Redshift y Athena a Snowflake y BigQuery</span></div>
@@ -318,7 +318,7 @@ html,body{background:var(--bg)}
       <div>
       <p><span class="k">Formatos y estándares abiertos.</span>BigQuery usa GoogleSQL y lee tablas externas en Cloud Storage en Parquet, ORC, Avro, CSV, JSON e Iceberg; con BigLake se gobiernan esas tablas sin dar permisos al almacén. Cloud SQL corre los motores tal cual, así que un respaldo de PostgreSQL se lleva a cualquier otro PostgreSQL.</p>
       <p><span class="k">Conectores y drivers.</span>Drivers ODBC y JDBC para BigQuery (de Simba y propios de Google) para herramientas de BI y aplicaciones existentes; Cloud SQL se conecta con los drivers nativos de cada motor, con Cloud SQL Auth Proxy o con conectores por lenguaje.</p>
-      <p><span class="k">Fuentes sin mover datos.</span>Consultas federadas de BigQuery a Cloud SQL, Spanner y Bigtable, y BigQuery Omni para consultar datos que viven en Amazon S3 y Azure Blob Storage, el caso de administración multiproveedor de Chopra. Looker Studio conecta con BigQuery, Cloud SQL, Sheets, Analytics y con MySQL, PostgreSQL, SQL Server y Amazon Redshift, más conectores de la comunidad.</p>
+      <p><span class="k">Integración con fuentes externas.</span>Consultas federadas de BigQuery a Cloud SQL, Spanner y Bigtable, y BigQuery Omni para consultar datos que viven en Amazon S3 y Azure Blob Storage, el caso de administración multiproveedor de Chopra. Looker Studio conecta con BigQuery, Cloud SQL, Sheets, Analytics y con MySQL, PostgreSQL, SQL Server y Amazon Redshift, más conectores de la comunidad.</p>
       <p class="fuente">Fuente: documentación oficial de BigQuery, Cloud SQL y Looker Studio, consultada el 12-09-2026.</p>
       </div>
       <div class="panel dato"><span class="n">S3 · Blob</span><span class="l">BigQuery Omni consulta datos guardados en Amazon S3 y en Azure Blob Storage sin moverlos a Google</span></div>
@@ -361,7 +361,7 @@ html,body{background:var(--bg)}
     <div class="panelt on" id="z-costo">
       <div>
       <p><span class="k">Microsoft Fabric.</span>Capacidad F2 (2 unidades) a <span class="dato-inline">USD 0.36/h</span> pago por uso (6.11 MXN), USD 262.80 al mes (4,460 MXN); reservada, USD 0.215 por hora. Almacenamiento OneLake caliente: USD 0.026 por GB-mes (0.44 MXN). En Mexico Central: USD 0.38 y 0.0286. Prueba gratuita de 60 días. Azure Synapse, todavía a la venta: USD 5 por TB procesado sin servidor (84.85 MXN) y DW100c a USD 1.51 por hora.</p>
-      <p><span class="k">Azure SQL Database.</span>Nivel Basic de 5 DTU y 2 GB a <span class="dato-inline">USD 4.8971/mes</span> (83.11 MXN); en Mexico Central, USD 5.3868 (91.42 MXN). Serverless General Purpose: USD 0.5218 por vCore-hora (8.86 MXN). Oferta gratuita permanente: 100,000 vCore-segundos y 32 GB al mes, hasta diez bases por suscripción.</p>
+      <p><span class="k">Azure SQL Database.</span>Nivel Basic de 5 DTU y 2 GB de almacenamiento a <span class="dato-inline">USD 4.8971/mes</span> (83.11 MXN), unos USD 0.0067 por hora a 730 horas; en Mexico Central, USD 5.3868 (91.42 MXN). Serverless General Purpose: USD 0.5218 por vCore-hora (8.86 MXN). Oferta gratuita permanente: 100,000 vCore-segundos y 32 GB al mes, hasta diez bases por suscripción.</p>
       <p><span class="k">Power BI.</span>Pro a <span class="dato-inline">USD 14/usuario-mes</span> con pago anual (237.59 MXN); Premium por usuario, USD 24 (407.30 MXN). Power BI Desktop es descarga gratuita.</p>
       <p class="fuente">Fuente: páginas oficiales de precios de Microsoft Fabric, Azure Synapse, Azure SQL Database y Power BI, consultadas el 12-09-2026, región East US.</p>
       </div>
@@ -371,7 +371,7 @@ html,body{background:var(--bg)}
       <div>
       <p><span class="k">Formatos y estándares abiertos.</span>OneLake guarda las tablas en Delta Parquet o Apache Iceberg, "dos estándares abiertos que cualquier herramienta puede leer", y expone las APIs de Azure Data Lake Storage Gen2, así que las aplicaciones existentes de ADLS funcionan sin cambios. Azure SQL habla T-SQL, el mismo dialecto de SQL Server.</p>
       <p><span class="k">Conectores y drivers.</span>Azure SQL publica drivers para C#, C++ (ODBC y OLE DB), Go, Java (JDBC), Node.js, PHP, Python y Ruby. Power BI se conecta a través de Power Query a SQL Server, Azure SQL, Fabric, Excel, Snowflake, Google BigQuery, Amazon Redshift, Salesforce, servicios web y OData; se embebe en aplicaciones (Power BI Embedded) y se abre en Excel y Teams.</p>
-      <p><span class="k">Fuentes sin mover datos.</span>Los atajos (shortcuts) de OneLake apuntan a Amazon S3, Google Cloud Storage, ADLS, Blob y fuentes Iceberg, y el espejo (mirroring) replica en Fabric bases de Azure SQL, SQL Server, PostgreSQL, Oracle, Snowflake y Google BigQuery. Es la administración de cargas de varios proveedores que Chopra describe (2017, p. 73).</p>
+      <p><span class="k">Integración con fuentes externas.</span>Dos mecanismos distintos: los atajos (shortcuts) de OneLake leen en su lugar datos de Amazon S3, Google Cloud Storage, ADLS, Blob y fuentes Iceberg, mientras que el espejo (mirroring) crea y mantiene en OneLake una réplica de bases de Azure SQL, SQL Server, PostgreSQL, Oracle, Snowflake y Google BigQuery. Es la administración de cargas de varios proveedores que Chopra describe (2017, p. 73).</p>
       <p class="fuente">Fuente: Microsoft Learn, páginas de OneLake, atajos, espejo, bibliotecas de conexión y fuentes de Power BI, consultadas el 12-09-2026.</p>
       </div>
       <div class="panel dato"><span class="n">8</span><span class="l">lenguajes con driver oficial para Azure SQL: C#, C++, Go, Java, Node.js, PHP, Python y Ruby</span></div>
@@ -379,7 +379,7 @@ html,body{background:var(--bg)}
     <div class="panelt" id="z-hw">
       <div>
       <p><span class="k">Nivel 1, cliente.</span>El portal de Azure y el servicio Power BI corren en Edge 120 o posterior, Chrome, Firefox y Safari 16.4 o posterior, con JavaScript y cookies de terceros habilitados. Power BI Desktop, la herramienta de autoría, sí pide hardware: Windows 10 o posterior de 64 bits, .NET 4.7.2, procesador de 1 GHz x64, al menos 2 GB de RAM disponibles (4 GB recomendados) y pantalla de 1440 x 900 como mínimo.</p>
-      <p><span class="k">Nivel 2, instancia mínima.</span>En Fabric, la capacidad F2 con <span class="dato-inline">2 CU · 0.25 v-cores</span>, facturada por segundo con mínimo de un minuto; en Azure SQL, el nivel Basic con 5 DTU (menos de un vCore) y 2 GB, o serverless con mínimo de 0.5 vCore y 2.02 GB de memoria, que se pausa sola tras 15 minutos sin uso.</p>
+      <p><span class="k">Nivel 2, instancia mínima.</span>En Fabric, la capacidad F2 con <span class="dato-inline">2 CU · 0.25 v-cores</span>, facturada por segundo con mínimo de un minuto; en Azure SQL, el nivel Basic con 5 DTU (menos de un vCore) y 2 GB de almacenamiento (Microsoft no publica su memoria), o serverless con mínimo de 0.5 vCore y 2.02 GB de memoria, que se pausa sola tras 15 minutos sin uso. Son puntos de entrada; el rendimiento óptimo se dimensiona según datos, concurrencia y consultas.</p>
       <p class="fuente">Fuente: Microsoft Learn, páginas de navegadores del portal y de Power BI, requisitos de Power BI Desktop, licencias de Fabric y límites de Azure SQL, consultadas el 12-09-2026.</p>
       </div>
       <div class="panel dato"><span class="n">2 GB</span><span class="l">de RAM disponibles como mínimo para Power BI Desktop, la única pieza de las nueve que se instala en una computadora</span></div>
@@ -401,13 +401,13 @@ html,body{background:var(--bg)}
     <tbody>
       <tr><td>Unidad de cobro del Big data</td><td>nodo-hora o RPU-hora (Redshift)</td><td>TiB consultado o slot-hora (BigQuery)</td><td>unidad de capacidad-hora (Fabric)</td></tr>
       <tr><td>Entrada más barata al Big data</td><td>ra3.large USD 0.543/h (9.22 MXN)</td><td>1 TiB gratis al mes, luego USD 6.25/TiB (106.07 MXN)</td><td>F2 USD 0.36/h (6.11 MXN)</td></tr>
-      <tr><td>Base de datos mínima</td><td>db.t4g.micro USD 0.016/h (0.27 MXN)</td><td>db-f1-micro USD 0.0105/h (0.18 MXN)</td><td>Basic USD 4.8971/mes (83.11 MXN)</td></tr>
+      <tr><td>Base de datos mínima</td><td>db.t4g.micro USD 0.016/h (0.27 MXN)</td><td>db-f1-micro USD 0.0105/h (0.18 MXN)</td><td>Basic USD 4.8971/mes (83.11 MXN), unos USD 0.0067/h; capacidad y almacenamiento no comparables</td></tr>
       <tr><td>Tablero por usuario al mes</td><td>Author USD 24 (407.30 MXN), Reader USD 3 (50.91 MXN)</td><td>gratis; Pro USD 9 (152.74 MXN)</td><td>Pro USD 14 (237.59 MXN)</td></tr>
       <tr><td>Crédito o prueba inicial</td><td>USD 300 por 90 días (Redshift Serverless); hasta USD 200 en RDS</td><td>USD 300 por 90 días; 1 TiB y 10 GiB gratis cada mes</td><td>60 días de Fabric; Azure SQL gratis permanente (100,000 vCore-s)</td></tr>
       <tr class="igual"><td>Formatos abiertos que lee sin cargar</td><td>Parquet, ORC, Avro, JSON, CSV en S3</td><td>Parquet, ORC, Avro, JSON, CSV, Iceberg en Cloud Storage</td><td>Delta Parquet e Iceberg en OneLake</td></tr>
       <tr class="igual"><td>Drivers estándar SQL</td><td>JDBC y ODBC</td><td>JDBC y ODBC</td><td>JDBC y ODBC</td></tr>
       <tr class="igual"><td>Cliente mínimo</td><td>navegador soportado y conexión</td><td>navegador soportado y conexión</td><td>navegador soportado y conexión (Desktop pide Windows de 64 bits)</td></tr>
-      <tr><td>Instancia mínima de base</td><td>2 vCPU, 1 GiB</td><td>vCPU compartida, 0.6 GiB</td><td>menos de 1 vCore, 2 GB</td></tr>
+      <tr><td>Instancia mínima de base (entrada, no óptimo)</td><td>2 vCPU, 1 GiB de RAM</td><td>vCPU compartida, 0.6 GiB de RAM</td><td>Basic: menos de 1 vCore, 2 GB de almacenamiento; serverless: 0.5 vCore, 2.02 GB de RAM</td></tr>
     </tbody>
   </table>
   <p class="fuente">Las filas marcadas como iguales se ocultan con el botón. Fuentes en la última diapositiva.</p>
@@ -438,7 +438,7 @@ html,body{background:var(--bg)}
   <div class="panel"></div>
   <div class="texto">
     <h2 class="hito">Conclusión</h2>
-    <p>Puestas una junto a otra, las tres marcas cobran la base de datos casi igual, entre 0.0105 y 0.016 dólares la hora, y leen los mismos formatos abiertos, así que ni el costo de entrada ni la interoperabilidad las separan; lo que las separa es la unidad con la que miden el Big data y el tablero: nodo, tebibyte o capacidad, y usuario de pago o usuario gratuito. Chopra (2017) advierte que la nube "no es una solución rápida" y exige pensarla antes de adoptarla (p. 14); esta comparación confirma dónde hay que pensar: en cuántos datos se consultan y cuántas personas leen los tableros, porque ahí una decisión de 0.36 dólares la hora se vuelve una de 262 al mes. Si tuviera que elegir hoy para un proyecto que arranca de cero, empezaría en Google Cloud por el tebibyte gratuito y el tablero sin costo, y cambiaría de marca sólo cuando los datos ya vivieran en la plataforma de alguna otra.</p>
+    <p>Puestas una junto a otra, las tres marcas leen los mismos formatos abiertos y publican drivers JDBC y ODBC, pero eso no las vuelve intercambiables: cada una integra fuentes externas con mecanismos propios, consulta federada en AWS y Google Cloud, atajos y réplica espejo en Azure. Tampoco el precio de entrada de la base de datos se compara de frente: AWS y Google cobran por hora (0.016 y 0.0105 dólares) y Azure por mes (4.90 dólares, unos 0.0067 por hora) por capacidades y almacenamiento distintos. Lo que sí separa a las tres con claridad es la unidad con la que miden el Big data y el tablero: nodo, tebibyte o capacidad, y usuario de pago o usuario gratuito. Chopra (2017) advierte que la nube "no es una solución rápida" y exige pensarla antes de adoptarla (p. 14); esta comparación dice dónde: en cuántos datos se consultan y cuántas personas leen los tableros, porque ahí una decisión de 0.36 dólares la hora se vuelve una de 262 al mes. Si tuviera que elegir hoy para un proyecto que arranca de cero, empezaría en Google Cloud por el tebibyte gratuito y el tablero sin costo, y cambiaría de marca sólo cuando los datos ya vivieran en la plataforma de otra.</p>
   </div>
 </section>
 
