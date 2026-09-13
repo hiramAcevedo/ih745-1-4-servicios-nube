@@ -507,20 +507,27 @@ document.querySelectorAll('a.tarjeta, .navm a[data-m]').forEach(a=>{
   a.addEventListener('click',e=>{
     const sec=document.getElementById(a.getAttribute('href').replace('#/',''));
     if(!sec) return; e.preventDefault();
+    if(Reveal.isScrollView&&Reveal.isScrollView()){ // en celular (vista de scroll) se desplaza hasta la marca
+      (sec.querySelector('section')||sec).scrollIntoView({behavior:'smooth',block:'start'}); return;
+    }
     const i=Reveal.getIndices(sec.querySelector('section')||sec); Reveal.slide(i.h,0);
   });
 });
-// la barra sólo se muestra dentro de la pila de una marca, con la marca actual encendida
+// la barra sólo se muestra dentro de la pila de una marca, con la marca actual encendida.
+// En celular (vista de scroll de reveal, menos de 435 px) se muestra siempre, sin marca encendida.
 function marcaActual(){
-  const s=Reveal.getCurrentSlide(); const p=s&&s.parentElement;
-  return p&&p.id&&p.id.startsWith('marca-')?p.id:null;
+  const sec=Reveal.getHorizontalSlides()[Reveal.getIndices().h];
+  return sec&&sec.id&&sec.id.startsWith('marca-')?sec.id:null;
 }
 function pintarNav(){
-  const m=marcaActual(); const nav=document.getElementById('navm');
+  const nav=document.getElementById('navm');
+  if(Reveal.isScrollView&&Reveal.isScrollView()){nav.classList.add('on');nav.querySelectorAll('a').forEach(a=>a.classList.remove('actual'));return;}
+  const m=marcaActual();
   nav.classList.toggle('on',!!m);
   nav.querySelectorAll('a[data-m]').forEach(a=>a.classList.toggle('actual',a.dataset.m===m));
 }
-Reveal.on('ready',pintarNav); Reveal.on('slidechanged',pintarNav);
+Reveal.on('ready',()=>{pintarNav();setTimeout(pintarNav,400);}); Reveal.on('slidechanged',pintarNav);
+window.addEventListener('hashchange',()=>setTimeout(pintarNav,100));
 // pestañas
 document.querySelectorAll('[data-tabs]').forEach(tabs=>{
   tabs.addEventListener('click',e=>{
