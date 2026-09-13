@@ -122,6 +122,14 @@ html,body{background:var(--bg)}
 .pie>*{pointer-events:auto}
 .pie a{color:var(--ink);text-decoration:none;font-weight:500;padding:5px 11px;border:1px solid var(--line);border-radius:999px;margin-right:12px}
 .pie .firma{font-family:var(--serif);font-style:italic;font-size:1.25em;color:var(--ink)}
+/* barra de marcas: aparece sólo dentro de la pila de una marca, para saltar a las otras dos o al menú */
+.navm{position:fixed;top:16px;right:22px;z-index:30;display:none;gap:8px;align-items:center;font:500 13px var(--sans)}
+.navm.on{display:flex}
+.navm span{color:var(--mute);margin-right:4px;font-weight:300}
+.navm a{color:var(--ink);text-decoration:none;padding:6px 13px;border:1px solid var(--line);border-radius:999px;background:rgba(0,0,0,.6);transition:border-color .15s}
+.navm a:hover{border-color:rgba(255,255,255,.6)}
+.navm a.actual{background:var(--magenta);border-color:var(--magenta);font-weight:600}
+@media (max-width:700px){.navm{top:8px;right:8px;font-size:11px;gap:5px}.navm a{padding:4px 9px}.navm span{display:none}}
 .reveal .progress{color:var(--magenta);height:3px}
 .reveal .progress span{background:linear-gradient(90deg,var(--g1),var(--g2),var(--g3))}
 .reveal .slide-number{font-family:var(--mono);background:transparent;color:var(--mute);font-size:.45em;right:auto;left:36%;bottom:18px}
@@ -475,6 +483,14 @@ html,body{background:var(--bg)}
 
 </div></div>
 
+<nav class="navm" id="navm" aria-label="Cambiar de marca">
+  <span>Ver otra marca:</span>
+  <a href="#/marca-aws" data-m="marca-aws">AWS</a>
+  <a href="#/marca-gcp" data-m="marca-gcp">Google Cloud</a>
+  <a href="#/marca-azure" data-m="marca-azure">Azure</a>
+  <a href="#/menu">Menú</a>
+</nav>
+
 <div class="pie">
   <span><a href="#/menu">Menú</a>← → para moverte · ↓ dentro de cada marca · Esc para ver todo</span>
   <span class="firma">By Hiram Acevedo</span>
@@ -486,14 +502,25 @@ Reveal.initialize({
   hash:true, slideNumber:'c/t', progress:true, controls:true, controlsTutorial:false,
   transition:'fade', backgroundTransition:'none', width:1280, height:720, margin:0.05, center:false, touch:true, controlsLayout:'edges',
 });
-// menú: cada tarjeta lleva a la PRIMERA diapositiva de su marca, aunque ya se haya visitado otra
-document.querySelectorAll('a.tarjeta').forEach(a=>{
+// menú y barra de marcas: cada enlace lleva a la PRIMERA diapositiva de su marca, aunque ya se haya visitado otra
+document.querySelectorAll('a.tarjeta, .navm a[data-m]').forEach(a=>{
   a.addEventListener('click',e=>{
     const sec=document.getElementById(a.getAttribute('href').replace('#/',''));
     if(!sec) return; e.preventDefault();
     const i=Reveal.getIndices(sec.querySelector('section')||sec); Reveal.slide(i.h,0);
   });
 });
+// la barra sólo se muestra dentro de la pila de una marca, con la marca actual encendida
+function marcaActual(){
+  const s=Reveal.getCurrentSlide(); const p=s&&s.parentElement;
+  return p&&p.id&&p.id.startsWith('marca-')?p.id:null;
+}
+function pintarNav(){
+  const m=marcaActual(); const nav=document.getElementById('navm');
+  nav.classList.toggle('on',!!m);
+  nav.querySelectorAll('a[data-m]').forEach(a=>a.classList.toggle('actual',a.dataset.m===m));
+}
+Reveal.on('ready',pintarNav); Reveal.on('slidechanged',pintarNav);
 // pestañas
 document.querySelectorAll('[data-tabs]').forEach(tabs=>{
   tabs.addEventListener('click',e=>{
