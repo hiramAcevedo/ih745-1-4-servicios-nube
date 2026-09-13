@@ -1,0 +1,532 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>1.4 Servicios de computación en la nube · IH745 Optativa V</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/reveal.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,700;0,6..96,900;1,6..96,400;1,6..96,700&family=IBM+Plex+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+/* ── Sistema visual HiLab Darkmode 3: negro, Bodoni, magenta, paneles con gradiente y grano ── */
+:root{
+  --bg:#000000; --ink:#FFFFFF; --mute:rgba(255,255,255,.64); --line:rgba(255,255,255,.16);
+  --magenta:#FF005E; --g1:#4E7AFF; --g2:#D11B87; --g3:#FDC400; --gris:#717F84;
+  --serif:"Bodoni Moda","Bodoni 72 Oldstyle","Bodoni 72",Didot,"Times New Roman",serif;
+  --sans:"IBM Plex Sans",Inter,"Helvetica Neue",Arial,sans-serif;
+  --mono:"JetBrains Mono",Consolas,"Courier New",monospace;
+  --grano:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.95' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+html,body{background:var(--bg)}
+.reveal{font-family:var(--sans);font-size:24px;color:var(--ink);font-weight:300;letter-spacing:.005em}
+.reveal .slides section{text-align:left;padding:0 56px;box-sizing:border-box}
+.reveal .slides section.contenido{padding-top:40px}
+.reveal h1,.reveal h2,.reveal h3{font-family:var(--serif);font-weight:700;text-transform:none;letter-spacing:-.015em;color:var(--ink);margin:0 0 .5em}
+.reveal h1{font-size:2.3em;line-height:1.02;font-weight:900}
+.reveal h2{font-size:1.5em;line-height:1.1}
+.reveal h3{font-size:1em;font-weight:700}
+.reveal p{line-height:1.5;margin:.4em 0}
+.reveal strong{font-weight:600;color:var(--ink)}
+.reveal a{color:var(--ink)}
+.reveal ol,.reveal ul{margin:.3em 0 .3em 1.1em}
+.reveal li{line-height:1.4;margin:.15em 0}
+/* título con la marca del logo: trapecio magenta + trapecio gris translúcido */
+.reveal h2.hito{position:relative}
+.reveal h2.hito::before{content:"";position:absolute;left:-2px;top:-.62em;width:1.05em;height:.34em;background:var(--magenta);clip-path:polygon(22% 0,100% 0,88% 100%,0 100%)}
+.reveal h2.hito::after{content:"";position:absolute;left:.62em;top:-.7em;width:.75em;height:.42em;background:var(--gris);opacity:.44;clip-path:polygon(28% 0,100% 0,82% 100%,0 100%)}
+/* panel con gradiente y grano */
+.panel{position:relative;overflow:hidden;background:linear-gradient(178deg,var(--g1) 0%,var(--g2) 52%,var(--g3) 100%);border-radius:2px}
+.panel::after{content:"";position:absolute;inset:0;background-image:var(--grano);background-size:220px 220px;opacity:.75;mix-blend-mode:overlay;pointer-events:none}
+.panel>*{position:relative;z-index:1}
+/* portada */
+.portada{display:grid!important;grid-template-columns:1.25fr 1fr;gap:48px;align-items:stretch;height:100%}
+.portada .titulo{align-self:center}
+.portada h1{position:relative;margin-bottom:.55em}
+.portada h1::before{content:"";position:absolute;left:0;top:-.5em;width:1.3em;height:.36em;background:var(--magenta);clip-path:polygon(22% 0,100% 0,88% 100%,0 100%)}
+.portada h1::after{content:"";position:absolute;left:.78em;top:-.6em;width:.9em;height:.46em;background:var(--gris);opacity:.44;clip-path:polygon(28% 0,100% 0,82% 100%,0 100%)}
+.portada .datos{font-size:.62em;line-height:1.75;color:var(--mute);font-weight:300}
+.portada .datos b{display:block;color:var(--ink);font-weight:500;font-size:1.08em}
+.triptico{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;padding:70px 0 90px}
+.triptico .panel{min-height:100%}
+/* dos columnas */
+.dos{display:grid;grid-template-columns:7fr 3fr;gap:44px;align-items:start}
+.dato{padding:26px 24px 28px;color:#fff;min-height:250px;display:flex;flex-direction:column;justify-content:flex-end}
+.dato .n{font:900 2.5em/1 var(--serif);letter-spacing:-.03em;display:block;margin-bottom:.35em;text-shadow:0 1px 0 rgba(0,0,0,.25)}
+.dato .l{font-size:.6em;line-height:1.4;font-weight:400;opacity:.95}
+/* tarjetas (modelos de servicio) y menú */
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:.5em}
+.tarj{border:1px solid var(--line);border-top:4px solid var(--magenta);padding:18px 20px;font-size:.66em;line-height:1.45}
+.tarj h3{font-size:1.25em;margin:0 0 .4em}
+.tarj .svc{font-family:var(--serif);font-style:italic;font-weight:700;font-size:1.02em;display:block;margin-bottom:.35em}
+.menu{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:.8em}
+.tarjeta{display:block;text-decoration:none;color:inherit;border:1px solid var(--line);padding:0 0 18px;transition:transform .15s,border-color .15s}
+.tarjeta:hover{transform:translateY(-4px);border-color:rgba(255,255,255,.55)}
+.tarjeta .panel{height:150px;display:flex;align-items:center;justify-content:center}
+.tarjeta .panel img{height:44px}
+.tarjeta .panel .chip{background:#fff;border-radius:6px;padding:8px 14px;display:inline-flex}
+.tarjeta .panel .chip.oscuro{background:#0f1520}
+.tarjeta h3{margin:14px 20px 4px;font-size:1.05em}
+.tarjeta p{margin:0 20px;font-size:.62em;color:var(--mute);line-height:1.4}
+/* split 50/50 */
+.split{display:grid;grid-template-columns:1fr 1fr;gap:40px;font-size:.7em}
+.split h3{font-size:1.15em;margin-bottom:.4em;font-style:italic}
+.split .nivel{font-family:var(--serif);font-style:italic;font-weight:700}
+/* encabezado de marca */
+.marca{display:flex;align-items:center;gap:18px;margin-bottom:.35em}
+.marca .chip{background:#fff;border-radius:6px;padding:7px 12px;display:inline-flex;align-items:center;height:44px}
+.marca .chip img{height:26px;display:block}
+.marca .chip.oscuro{background:#0f1520}
+.marca h2{margin:0}
+/* pestañas */
+.tabs{display:flex;gap:10px;margin:.5em 0 .9em}
+.tabs button{font:500 .58em var(--sans);letter-spacing:.02em;padding:9px 18px;border-radius:999px;border:1px solid var(--line);background:transparent;color:var(--ink);cursor:pointer;transition:background .15s,border-color .15s}
+.tabs button:hover{border-color:rgba(255,255,255,.5)}
+.tabs button.on{background:var(--magenta);border-color:var(--magenta);color:#fff;font-weight:600}
+.panelt{display:none;font-size:.76em;grid-template-columns:7fr 3fr;gap:40px;align-items:stretch}.panelt.on{display:grid}
+.panelt p{margin:.35em 0 .55em}
+.panelt .dato{min-height:300px}
+.panelt .dato .n{font-size:2.4em}
+.panelt .k{font-family:var(--serif);font-style:italic;font-weight:700;color:var(--ink);font-size:1.05em;margin-right:.35em}
+.dato-inline{font-family:var(--mono);font-weight:600;font-size:.86em;color:#fff;background:rgba(255,255,255,.1);padding:2px 8px;border-radius:4px;white-space:nowrap}
+.fuente{font-size:.5em;color:var(--mute);margin-top:.9em;font-weight:300}
+/* captura */
+.captura{display:block;max-width:100%;max-height:520px;margin:0 auto;border:1px solid var(--line)}
+/* tabla */
+.reveal table{font-size:.56em;border-collapse:collapse;width:100%;margin-top:.3em}
+.reveal th{font-family:var(--sans);font-weight:500;letter-spacing:.06em;text-transform:uppercase;font-size:.78em;color:var(--mute);text-align:left;padding:10px 12px;border-bottom:1px solid rgba(255,255,255,.45)}
+.reveal th:first-child{width:22%}
+.reveal td{padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top;line-height:1.35;font-weight:300}
+.reveal td:first-child{font-family:var(--serif);font-weight:700;font-style:italic;font-size:1.08em;color:var(--ink)}
+.reveal tr.igual td{color:var(--mute)}
+.reveal tr.igual td:first-child::after{content:" (igual)";font:300 .7em var(--sans);color:var(--mute);font-style:normal}
+.reveal tr.igual.oculta{display:none}
+.control{font:500 .55em var(--sans);padding:8px 14px;border-radius:999px;border:1px solid var(--line);background:transparent;color:var(--ink);cursor:pointer}
+.control.on{background:var(--ink);border-color:var(--ink);color:#000;font-weight:600}
+/* decisor */
+.decisor{font-size:.66em;display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px}
+.decisor fieldset{border:1px solid var(--line);padding:12px 16px;margin:0}
+.decisor legend{font-family:var(--serif);font-style:italic;font-weight:700;font-size:1.1em;padding:0 8px}
+.decisor label{display:block;margin:8px 0;cursor:pointer;line-height:1.35;font-weight:300}
+.decisor input{accent-color:var(--magenta);margin-right:8px}
+.resultado{grid-column:1/-1;margin-top:.4em;padding:18px 22px;min-height:2.6em;font-size:1.05em;line-height:1.45;color:#fff}
+/* conclusión */
+.cierre{display:grid!important;grid-template-columns:1fr 4fr;gap:44px;align-items:stretch;height:100%}
+.cierre .panel{margin:60px 0 90px}
+.cierre .texto{align-self:center;font-size:.9em}
+/* referencias */
+.refs{font-size:.35em;line-height:1.4;columns:3;column-gap:28px;word-break:break-word}
+.refs p{margin:0 0 .5em;padding-left:1.4em;text-indent:-1.4em;break-inside:avoid}
+/* pie fijo */
+.pie{position:fixed;left:22px;right:22px;bottom:16px;z-index:30;display:flex;justify-content:space-between;align-items:center;font:300 .5em var(--sans);color:var(--mute);pointer-events:none}
+.pie>*{pointer-events:auto}
+.pie a{color:var(--ink);text-decoration:none;font-weight:500;padding:5px 11px;border:1px solid var(--line);border-radius:999px;margin-right:12px}
+.pie .firma{font-family:var(--serif);font-style:italic;font-size:1.25em;color:var(--ink)}
+.reveal .progress{color:var(--magenta);height:3px}
+.reveal .progress span{background:linear-gradient(90deg,var(--g1),var(--g2),var(--g3))}
+.reveal .slide-number{font-family:var(--mono);background:transparent;color:var(--mute);font-size:.45em;right:auto;left:36%;bottom:18px}
+.reveal .controls{color:rgba(255,255,255,.45)}
+@media print{.pie{display:none}}
+</style>
+</head>
+<body>
+<div class="reveal"><div class="slides">
+
+<!-- 1. PORTADA -->
+<section class="portada" data-background-color="#000000">
+  <div class="titulo">
+    <h1>Servicios de computación en la nube</h1>
+    <div class="datos">
+      <b>Hiram Agustín Acevedo López</b>
+      Licenciatura en Desarrollo de Sistemas Web<br>
+      OPTATIVA V<br>
+      NANCY RUIZ MONROY<br>
+      Unidad 1 Actividad 4<br>
+      12 de septiembre de 2026
+    </div>
+  </div>
+  <div class="triptico"><div class="panel"></div><div class="panel"></div><div class="panel"></div></div>
+</section>
+
+<!-- 2. QUÉ SE COMPARA -->
+<section class="contenido" data-background-color="#000000">
+  <h2 class="hito">Qué se compara y cómo se navega</h2>
+  <div class="dos">
+    <div>
+      <p>El primer tebibyte que se consulta cada mes en BigQuery no cuesta nada y el siguiente cuesta 6.25 dólares; en Azure una base de datos pequeña se cobra por mes, 4.90 dólares, y en AWS una instancia mínima de PostgreSQL se cobra por hora, 0.016 dólares. Las tres marcas venden lo mismo, cómputo y almacenamiento para datos, pero lo miden con unidades distintas. Esta presentación pone a AWS, Google Cloud y Microsoft Azure bajo los mismos tres criterios que pide la actividad, costos, interoperabilidad con otras tecnologías y hardware mínimo, para sus servicios de Big data, bases de datos y tableros. Antes de las marcas hay tres diapositivas con el marco de Chopra (2017), porque las preguntas sólo se entienden con él.</p>
+      <p class="fuente">Se navega con las flechas o tocando los bordes. Con Esc se ve el mapa completo. Cada tarjeta del menú salta a su sección; el botón Menú del pie regresa a él.</p>
+    </div>
+    <div class="panel dato"><span class="n">3 × 3</span><span class="l">tres marcas por tres criterios de la rúbrica: nueve celdas, cada una con cifra oficial, fecha de consulta y fuente</span></div>
+  </div>
+</section>
+
+<!-- 3. MARCO 1 -->
+<section class="contenido" data-background-color="#000000">
+  <h2 class="hito">La nube según Chopra: elástica y cobrada por uso</h2>
+  <div class="dos">
+    <div>
+      <p>Chopra (2017) define la nube como un grupo de servidores interconectados, públicos o privados, cuyos datos y aplicaciones quedan al alcance de un grupo de usuarios a través de la red, mientras "la infraestructura y la tecnología de la nube no son visibles para el usuario final" (p. 1). La misma página añade la propiedad que explica todo lo que sigue: el sistema es elástico, crece y se contrae según la necesidad del cliente.</p>
+      <p class="fragment">De la elasticidad sale la forma de cobrar. El autor compara el modelo con el medidor de luz: "se te cobra sólo por el tiempo en que usas los servicios de la nube" (Chopra, 2017, p. 13). Por eso ninguna de las nueve celdas de costo de esta presentación es una licencia: son dólares por hora de nodo, por tebibyte consultado o por usuario al mes.</p>
+    </div>
+    <div class="panel dato"><span class="n">16.9707</span><span class="l">pesos por dólar, FIX Banxico del 11-09-2026, con el que se convierte cada precio de este deck</span></div>
+  </div>
+</section>
+
+<!-- 4. MARCO 2: modelos de servicio -->
+<section class="contenido" data-background-color="#000000">
+  <h2 class="hito">Modelos de servicio: dónde cae cada producto</h2>
+  <p style="font-size:.78em">Chopra (2017) resume los tres modelos en una línea cada uno: en SaaS "usas el software pero no lo posees", en PaaS "usas la plataforma para desarrollar aplicaciones" y en IaaS "usas el hardware y el software como una máquina virtual" (p. 52). Su tabla 1.1 ya pone a AWS como ejemplo de IaaS y a Azure y Google como PaaS y SaaS (p. 15). Los nueve servicios de esta comparación caen en los dos niveles superiores: nadie administra máquinas.</p>
+  <div class="grid3">
+    <div class="tarj"><h3>Big data</h3><span class="svc">Amazon Redshift, BigQuery y Microsoft Fabric.</span>Modelo PaaS: el proveedor pone hardware, motor y escalado; el usuario pone tablas y consultas SQL.</div>
+    <div class="tarj"><h3>Bases de datos</h3><span class="svc">Amazon RDS for PostgreSQL, Cloud SQL for PostgreSQL y Azure SQL Database.</span>Modelo PaaS: base administrada con respaldo y réplica incluidos, que es la técnica de replicación que Chopra describe para el DBMS en la nube (2017, pp. 51-52).</div>
+    <div class="tarj"><h3>Tableros</h3><span class="svc">Amazon Quick Sight, Looker Studio y Power BI.</span>Modelo SaaS: se abren en el navegador, no hay servidor que instalar, y se pagan por usuario o son gratuitos.</div>
+  </div>
+</section>
+
+<!-- 5. MARCO 3: criterios b y c -->
+<section class="contenido" data-background-color="#000000">
+  <h2 class="hito">Interoperabilidad y hardware: cómo se leen los criterios b y c</h2>
+  <div class="split">
+    <div>
+      <h3>Interoperabilidad, según Chopra</h3>
+      <p>El capítulo 2 pide estandarizar "las cargas de trabajo, la autenticación y el acceso a datos, así como las partes que deben trabajar juntas" (Chopra, 2017, p. 68), y reduce los casos de uso de NIST, OMG y DMTF a cuatro básicos (p. 73):</p>
+      <ol>
+        <li><span class="nivel">Autenticación:</span> la misma identidad sirve en otro proveedor.</li>
+        <li><span class="nivel">Migración de cargas:</span> lo que corre en una nube se sube a otra.</li>
+        <li><span class="nivel">Migración de datos:</span> los datos se mueven de un proveedor a otro.</li>
+        <li><span class="nivel">Administración de cargas:</span> herramientas propias manejan recursos de varios proveedores.</li>
+      </ol>
+      <p>En cada marca, la pestaña Interoperabilidad se ordena así: formatos y estándares abiertos (casos 3 y 4), conectores y drivers (caso 4) y fuentes externas que se consultan sin mover datos (caso 3).</p>
+    </div>
+    <div>
+      <h3>Hardware mínimo, en dos niveles</h3>
+      <p>La pregunta viene del software instalable, y en la nube el hardware lo pone el proveedor: la infraestructura dinámica hace que "el hardware y el software subyacentes respondan dinámicamente a los cambios de demanda" (Chopra, 2017, p. 24). Por eso se contesta en dos niveles.</p>
+      <p><span class="nivel">Nivel 1, lo que pone el usuario:</span> el portal web de autoservicio que Chopra lista como requisito de todo servicio en la nube (p. 24), es decir, un navegador soportado y conexión a internet.</p>
+      <p><span class="nivel">Nivel 2, lo que reserva el proveedor:</span> la unidad más pequeña que deja contratar (nodo, instancia o capacidad), con sus vCPU y memoria.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 6. MENÚ -->
+<section class="contenido" id="menu" data-background-color="#000000">
+  <h2 class="hito">Elige por dónde empezar</h2>
+  <div class="menu">
+    <a class="tarjeta" href="#/marca-aws"><div class="panel"><span class="chip oscuro"><img src="assets/aws-white.png" alt="AWS"></span></div><h3>Amazon Web Services</h3><p>Redshift, RDS for PostgreSQL y Quick Sight. Cobra por hora de nodo y por usuario.</p></a>
+    <a class="tarjeta" href="#/marca-gcp"><div class="panel"><span class="chip"><img src="assets/google-cloud.svg" alt="Google Cloud"></span></div><h3>Google Cloud</h3><p>BigQuery, Cloud SQL y Looker Studio. Cobra por datos consultados; el tablero es gratuito.</p></a>
+    <a class="tarjeta" href="#/marca-azure"><div class="panel"><span class="chip"><img src="assets/azure.svg" alt="Microsoft Azure"></span></div><h3>Microsoft Azure</h3><p>Fabric, Azure SQL Database y Power BI. Cobra por capacidad compartida y licencias por usuario.</p></a>
+  </div>
+  <p class="fuente">O sigue en orden: después del menú viene AWS. Dentro de cada marca, la flecha hacia abajo recorre sus tres diapositivas.</p>
+</section>
+
+<!-- 7-9. AWS -->
+<section id="marca-aws">
+  <section class="contenido" data-background-color="#000000">
+    <div class="marca"><span class="chip oscuro"><img src="assets/aws-white.png" alt="AWS"></span><h2>AWS · Redshift, RDS y Quick Sight</h2></div>
+    <div class="dos">
+      <div>
+        <p>Amazon Web Services es la marca que Chopra (2017) usa como ejemplo de IaaS (p. 15), pero sus servicios de datos son PaaS y SaaS. Para Big data está Amazon Redshift, un almacén columnar que se contrata por nodo (el más pequeño, ra3.large, sale en 0.543 dólares la hora) o sin servidor, por unidades de procesamiento RPU. Para bases de datos, Amazon RDS administra seis motores; aquí se toma PostgreSQL. Para tableros, Amazon Quick Sight, que en 2026 cambió de nombre desde QuickSight y cobra por rol de usuario.</p>
+        <p class="fragment">El dato que sorprende es la escala del salto entre servicios: la instancia mínima de RDS cuesta 0.016 dólares la hora y el nodo mínimo de Redshift 0.543, treinta y cuatro veces más. En AWS la diferencia entre "una base" y "un almacén de datos" se paga desde la primera hora.</p>
+      </div>
+      <div class="panel dato"><span class="n">6</span><span class="l">motores de base de datos en RDS: Db2, MariaDB, SQL Server, MySQL, Oracle y PostgreSQL (AWS, 2026)</span></div>
+    </div>
+  </section>
+  <section class="contenido" data-background-color="#000000">
+    <div class="marca"><span class="chip oscuro"><img src="assets/aws-white.png" alt="AWS"></span><h2>AWS · los tres criterios</h2></div>
+    <div class="tabs" data-tabs>
+      <button class="on" data-panel="a-costo">Costos</button>
+      <button data-panel="a-inter">Interoperabilidad</button>
+      <button data-panel="a-hw">Hardware mínimo</button>
+    </div>
+    <div class="panelt on" id="a-costo">
+      <div>
+      <p><span class="k">Redshift.</span>ra3.large a <span class="dato-inline">USD 0.543/h</span> por nodo (9.22 MXN), unos USD 396 al mes si corre todo el tiempo (6,727 MXN). Serverless: <span class="dato-inline">USD 0.375/RPU-h</span> (6.36 MXN), con crédito de USD 300 por 90 días para cuentas que nunca lo han usado. En Mexico Central: USD 0.57015 y 0.39375.</p>
+      <p><span class="k">RDS for PostgreSQL.</span>db.t4g.micro Single-AZ a <span class="dato-inline">USD 0.016/h</span> (0.27 MXN), unos USD 11.68 al mes (198 MXN); almacenamiento gp3 a USD 0.115 por GB-mes (1.95 MXN). En Mexico Central: USD 0.017 y 0.121. Cuentas nuevas: hasta USD 200 en créditos durante seis meses.</p>
+      <p><span class="k">Quick Sight.</span>Author <span class="dato-inline">USD 24/usuario-mes</span> (407.30 MXN), Reader USD 3 (50.91 MXN); Author Pro USD 40 y Reader Pro USD 20. Sin precio por región.</p>
+      <p class="fuente">Fuente: páginas oficiales de precios de Redshift, RDS for PostgreSQL y Quick Sight, consultadas el 12-09-2026, región US East (N. Virginia).</p>
+      </div>
+      <div class="panel dato"><span class="n">0.543</span><span class="l">dólares por hora del nodo más pequeño de Redshift; la instancia mínima de RDS cuesta 0.016, treinta y cuatro veces menos</span></div>
+    </div>
+    <div class="panelt" id="a-inter">
+      <div>
+      <p><span class="k">Formatos y estándares abiertos.</span>Redshift está basado en PostgreSQL y habla SQL; con Redshift Spectrum consulta archivos en S3 en Parquet, ORC, Avro, JSON y CSV sin cargarlos, con catálogo en AWS Glue, Athena o un metastore de Hive. Es el caso de migración de datos de Chopra: los archivos siguen en formato abierto.</p>
+      <p><span class="k">Conectores y drivers.</span>Drivers JDBC, ODBC y Python propios de Redshift, más la Data API (HTTPS sin conexión persistente). RDS se conecta con cualquier cliente estándar del motor, por endpoint DNS y puerto 5432 en PostgreSQL.</p>
+      <p><span class="k">Fuentes sin mover datos.</span>Consultas federadas de Redshift a RDS y Aurora (PostgreSQL y MySQL) e integraciones zero-ETL desde RDS, DynamoDB, Salesforce, SAP y ServiceNow. Quick Sight se conecta a 29 almacenes relacionales, entre ellos Redshift, Athena, S3, Snowflake, BigQuery y PostgreSQL, y se embebe en aplicaciones con su SDK de JavaScript.</p>
+      <p class="fuente">Fuente: documentación oficial de Redshift, RDS y Quick Sight, consultada el 12-09-2026.</p>
+      </div>
+      <div class="panel dato"><span class="n">29</span><span class="l">almacenes relacionales a los que se conecta Quick Sight, de Redshift y Athena a Snowflake y BigQuery</span></div>
+    </div>
+    <div class="panelt" id="a-hw">
+      <div>
+      <p><span class="k">Nivel 1, cliente.</span>Un navegador soportado por Quick Sight (Safari 13 o posterior; Chrome y Firefox en sus últimas tres versiones; Edge en la última) y conexión a internet. La consola de AWS ya no publica una tabla de navegadores; sólo consta que Internet Explorer 11 dejó de soportarse en 2022.</p>
+      <p><span class="k">Nivel 2, instancia mínima.</span>En Redshift, un nodo ra3.large con <span class="dato-inline">2 vCPU · 16 GiB</span> y hasta 1 TB de almacenamiento administrado (un clúster de un solo nodo no se recomienda para producción); en RDS, db.t4g.micro con <span class="dato-inline">2 vCPU · 1 GiB</span>, procesador Graviton2 y un mínimo de 20 GiB de disco gp3. Quick Sight no tiene instancia: es SaaS.</p>
+      <p class="fuente">Fuente: guías oficiales de Redshift, RDS y Quick Sight, consultadas el 12-09-2026.</p>
+      </div>
+      <div class="panel dato"><span class="n">2 vCPU</span><span class="l">y 1 GiB de memoria: db.t4g.micro, lo más pequeño que reserva AWS para una base de datos administrada</span></div>
+    </div>
+  </section>
+  <section class="contenido" data-background-color="#000000">
+    <div class="marca"><span class="chip oscuro"><img src="assets/aws-white.png" alt="AWS"></span><h2>AWS · la página de precios de Redshift</h2></div>
+    <img class="captura" src="assets/aws-redshift-precios-2026-09-12.png" alt="Captura real de la página de precios de Amazon Redshift">
+    <p class="fuente">Captura real de aws.amazon.com/redshift/pricing, tomada el 12 de septiembre de 2026, región US East (N. Virginia): "Redshift Provisioned starts at $0.543 per hour". Nada de maquetas.</p>
+  </section>
+</section>
+
+<!-- 10-12. GOOGLE CLOUD -->
+<section id="marca-gcp">
+  <section class="contenido" data-background-color="#000000">
+    <div class="marca"><span class="chip"><img src="assets/google-cloud.svg" alt="Google Cloud"></span><h2>Google Cloud · BigQuery, Cloud SQL y Looker Studio</h2></div>
+    <div class="dos">
+      <div>
+        <p>Google Cloud invierte la unidad de cobro. BigQuery, su servicio de Big data, no vende nodos: bajo demanda cobra por tebibyte de datos que cada consulta procesa, y regala el primero de cada mes. Cloud SQL administra MySQL, PostgreSQL y SQL Server con instancias que arrancan en núcleo compartido. Looker Studio es el tablero, y su versión de autoservicio "sigue disponible sin costo", con una edición Pro de 9 dólares por usuario, proyecto y mes.</p>
+        <p class="fragment">Esa combinación deja un caso concreto: una organización que consulta menos de un tebibyte al mes, guarda menos de diez gibibytes y publica sus tableros en Looker Studio no paga nada por Big data ni por tableros; sólo paga la base de datos, desde 0.0105 dólares la hora.</p>
+      </div>
+      <div class="panel dato"><span class="n">1 TiB</span><span class="l">de consultas gratis al mes en BigQuery, más 10 GiB de almacenamiento (Google Cloud, 2026)</span></div>
+    </div>
+  </section>
+  <section class="contenido" data-background-color="#000000">
+    <div class="marca"><span class="chip"><img src="assets/google-cloud.svg" alt="Google Cloud"></span><h2>Google Cloud · los tres criterios</h2></div>
+    <div class="tabs" data-tabs>
+      <button class="on" data-panel="g-costo">Costos</button>
+      <button data-panel="g-inter">Interoperabilidad</button>
+      <button data-panel="g-hw">Hardware mínimo</button>
+    </div>
+    <div class="panelt on" id="g-costo">
+      <div>
+      <p><span class="k">BigQuery.</span>Bajo demanda, <span class="dato-inline">USD 6.25/TiB</span> procesado (106.07 MXN), con el primer TiB de cada mes gratis; en la región de México (northamerica-south1), USD 6.8125 (115.61 MXN). Almacenamiento lógico activo: USD 0.023 por GiB-mes (0.39 MXN), con 10 GiB gratis. Capacidad Standard edition: USD 0.04 por slot-hora (0.68 MXN), sin compromiso.</p>
+      <p><span class="k">Cloud SQL for PostgreSQL.</span>db-f1-micro a <span class="dato-inline">USD 0.0105/h</span> (0.18 MXN), unos USD 7.67 al mes (130 MXN); en México, USD 0.0114. Disco SSD: USD 0.17 por GiB-mes (2.89 MXN). Cuentas nuevas: USD 300 de crédito por 90 días y una instancia de prueba de 30 días sin costo.</p>
+      <p><span class="k">Looker Studio.</span>Gratuito en su nivel de autoservicio; Looker Studio Pro, <span class="dato-inline">USD 9/usuario-proyecto-mes</span> (152.74 MXN).</p>
+      <p class="fuente">Fuente: páginas oficiales de precios de BigQuery, Cloud SQL y Looker Studio, consultadas el 12-09-2026, región Iowa (us-central1).</p>
+      </div>
+      <div class="panel dato"><span class="n">USD 0</span><span class="l">por Big data y tableros hasta 1 TiB consultado al mes con Looker Studio gratuito; sólo se paga la base, desde 0.0105 la hora</span></div>
+    </div>
+    <div class="panelt" id="g-inter">
+      <div>
+      <p><span class="k">Formatos y estándares abiertos.</span>BigQuery usa GoogleSQL y lee tablas externas en Cloud Storage en Parquet, ORC, Avro, CSV, JSON e Iceberg; con BigLake se gobiernan esas tablas sin dar permisos al almacén. Cloud SQL corre los motores tal cual, así que un respaldo de PostgreSQL se lleva a cualquier otro PostgreSQL.</p>
+      <p><span class="k">Conectores y drivers.</span>Drivers ODBC y JDBC para BigQuery (de Simba y propios de Google) para herramientas de BI y aplicaciones existentes; Cloud SQL se conecta con los drivers nativos de cada motor, con Cloud SQL Auth Proxy o con conectores por lenguaje.</p>
+      <p><span class="k">Fuentes sin mover datos.</span>Consultas federadas de BigQuery a Cloud SQL, Spanner y Bigtable, y BigQuery Omni para consultar datos que viven en Amazon S3 y Azure Blob Storage, el caso de administración multiproveedor de Chopra. Looker Studio conecta con BigQuery, Cloud SQL, Sheets, Analytics y con MySQL, PostgreSQL, SQL Server y Amazon Redshift, más conectores de la comunidad.</p>
+      <p class="fuente">Fuente: documentación oficial de BigQuery, Cloud SQL y Looker Studio, consultada el 12-09-2026.</p>
+      </div>
+      <div class="panel dato"><span class="n">S3 · Blob</span><span class="l">BigQuery Omni consulta datos guardados en Amazon S3 y en Azure Blob Storage sin moverlos a Google</span></div>
+    </div>
+    <div class="panelt" id="g-hw">
+      <div>
+      <p><span class="k">Nivel 1, cliente.</span>Para ver un informe de Looker Studio basta un navegador con conexión; para crearlo, una cuenta de Google. Google lo tiene probado en Chrome, Firefox y Safari. La consola de Google Cloud es también una aplicación web.</p>
+      <p><span class="k">Nivel 2, instancia mínima.</span>En Cloud SQL, db-f1-micro con <span class="dato-inline">vCPU compartida · 0.6 GiB</span> y hasta 3,062 GiB de disco. BigQuery no tiene instancia: la capacidad se mide en slots y bajo demanda se paga por datos procesados. Looker Studio no tiene instancia: es SaaS.</p>
+      <p class="fuente">Fuente: documentación oficial de Cloud SQL, BigQuery y Looker Studio, consultada el 12-09-2026.</p>
+      </div>
+      <div class="panel dato"><span class="n">0.6 GiB</span><span class="l">de memoria y una vCPU compartida: db-f1-micro, la instancia más pequeña de Cloud SQL</span></div>
+    </div>
+  </section>
+  <section class="contenido" data-background-color="#000000">
+    <div class="marca"><span class="chip"><img src="assets/google-cloud.svg" alt="Google Cloud"></span><h2>Google Cloud · la página de precios de BigQuery</h2></div>
+    <img class="captura" src="assets/gcp-bigquery-precios-2026-09-12.png" alt="Captura real de la página de precios de BigQuery">
+    <p class="fuente">Captura real de cloud.google.com/bigquery/pricing, tomada el 12 de septiembre de 2026, región Iowa (us-central1). Nada de maquetas.</p>
+  </section>
+</section>
+
+<!-- 13-15. AZURE -->
+<section id="marca-azure">
+  <section class="contenido" data-background-color="#000000">
+    <div class="marca"><span class="chip"><img src="assets/azure.svg" alt="Microsoft Azure"></span><h2>Azure · Fabric, Azure SQL Database y Power BI</h2></div>
+    <div class="dos">
+      <div>
+        <p>Microsoft Azure agrupa su Big data en Microsoft Fabric, una capacidad compartida que se compra en unidades (la mínima, F2, cuesta 0.36 dólares la hora) y que alimenta almacén, Spark y tableros desde un mismo lago de datos, OneLake. Azure Synapse Analytics sigue a la venta, con consultas sin servidor a 5 dólares por terabyte, pero la documentación de Microsoft ya trae un asistente de migración hacia Fabric. Azure SQL Database es la base administrada, compatible con SQL Server. Power BI es el tablero, con licencias por usuario.</p>
+        <p class="fragment">La particularidad de Azure es que el tablero y el almacén comparten la factura: con una capacidad Fabric F64 o mayor, los lectores de Power BI no necesitan licencia Pro. Con F2, cada persona que abra un informe compartido necesita su Power BI Pro de 14 dólares al mes.</p>
+      </div>
+      <div class="panel dato"><span class="n">60 días</span><span class="l">de prueba gratuita de Microsoft Fabric, con hasta 1 TB en OneLake (Microsoft, 2026)</span></div>
+    </div>
+  </section>
+  <section class="contenido" data-background-color="#000000">
+    <div class="marca"><span class="chip"><img src="assets/azure.svg" alt="Microsoft Azure"></span><h2>Azure · los tres criterios</h2></div>
+    <div class="tabs" data-tabs>
+      <button class="on" data-panel="z-costo">Costos</button>
+      <button data-panel="z-inter">Interoperabilidad</button>
+      <button data-panel="z-hw">Hardware mínimo</button>
+    </div>
+    <div class="panelt on" id="z-costo">
+      <div>
+      <p><span class="k">Microsoft Fabric.</span>Capacidad F2 (2 unidades) a <span class="dato-inline">USD 0.36/h</span> pago por uso (6.11 MXN), USD 262.80 al mes (4,460 MXN); reservada, USD 0.215 por hora. Almacenamiento OneLake caliente: USD 0.026 por GB-mes (0.44 MXN). En Mexico Central: USD 0.38 y 0.0286. Prueba gratuita de 60 días. Azure Synapse, todavía a la venta: USD 5 por TB procesado sin servidor (84.85 MXN) y DW100c a USD 1.51 por hora.</p>
+      <p><span class="k">Azure SQL Database.</span>Nivel Basic de 5 DTU y 2 GB a <span class="dato-inline">USD 4.8971/mes</span> (83.11 MXN); en Mexico Central, USD 5.3868 (91.42 MXN). Serverless General Purpose: USD 0.5218 por vCore-hora (8.86 MXN). Oferta gratuita permanente: 100,000 vCore-segundos y 32 GB al mes, hasta diez bases por suscripción.</p>
+      <p><span class="k">Power BI.</span>Pro a <span class="dato-inline">USD 14/usuario-mes</span> con pago anual (237.59 MXN); Premium por usuario, USD 24 (407.30 MXN). Power BI Desktop es descarga gratuita.</p>
+      <p class="fuente">Fuente: páginas oficiales de precios de Microsoft Fabric, Azure Synapse, Azure SQL Database y Power BI, consultadas el 12-09-2026, región East US.</p>
+      </div>
+      <div class="panel dato"><span class="n">262.80</span><span class="l">dólares al mes por la capacidad F2 de Fabric encendida todo el tiempo: 0.36 la hora, o 0.215 con reserva</span></div>
+    </div>
+    <div class="panelt" id="z-inter">
+      <div>
+      <p><span class="k">Formatos y estándares abiertos.</span>OneLake guarda las tablas en Delta Parquet o Apache Iceberg, "dos estándares abiertos que cualquier herramienta puede leer", y expone las APIs de Azure Data Lake Storage Gen2, así que las aplicaciones existentes de ADLS funcionan sin cambios. Azure SQL habla T-SQL, el mismo dialecto de SQL Server.</p>
+      <p><span class="k">Conectores y drivers.</span>Azure SQL publica drivers para C#, C++ (ODBC y OLE DB), Go, Java (JDBC), Node.js, PHP, Python y Ruby. Power BI se conecta a través de Power Query a SQL Server, Azure SQL, Fabric, Excel, Snowflake, Google BigQuery, Amazon Redshift, Salesforce, servicios web y OData; se embebe en aplicaciones (Power BI Embedded) y se abre en Excel y Teams.</p>
+      <p><span class="k">Fuentes sin mover datos.</span>Los atajos (shortcuts) de OneLake apuntan a Amazon S3, Google Cloud Storage, ADLS, Blob y fuentes Iceberg, y el espejo (mirroring) replica en Fabric bases de Azure SQL, SQL Server, PostgreSQL, Oracle, Snowflake y Google BigQuery. Es la administración de cargas de varios proveedores que Chopra describe (2017, p. 73).</p>
+      <p class="fuente">Fuente: Microsoft Learn, páginas de OneLake, atajos, espejo, bibliotecas de conexión y fuentes de Power BI, consultadas el 12-09-2026.</p>
+      </div>
+      <div class="panel dato"><span class="n">8</span><span class="l">lenguajes con driver oficial para Azure SQL: C#, C++, Go, Java, Node.js, PHP, Python y Ruby</span></div>
+    </div>
+    <div class="panelt" id="z-hw">
+      <div>
+      <p><span class="k">Nivel 1, cliente.</span>El portal de Azure y el servicio Power BI corren en Edge 120 o posterior, Chrome, Firefox y Safari 16.4 o posterior, con JavaScript y cookies de terceros habilitados. Power BI Desktop, la herramienta de autoría, sí pide hardware: Windows 10 o posterior de 64 bits, .NET 4.7.2, procesador de 1 GHz x64, al menos 2 GB de RAM disponibles (4 GB recomendados) y pantalla de 1440 x 900 como mínimo.</p>
+      <p><span class="k">Nivel 2, instancia mínima.</span>En Fabric, la capacidad F2 con <span class="dato-inline">2 CU · 0.25 v-cores</span>, facturada por segundo con mínimo de un minuto; en Azure SQL, el nivel Basic con 5 DTU (menos de un vCore) y 2 GB, o serverless con mínimo de 0.5 vCore y 2.02 GB de memoria, que se pausa sola tras 15 minutos sin uso.</p>
+      <p class="fuente">Fuente: Microsoft Learn, páginas de navegadores del portal y de Power BI, requisitos de Power BI Desktop, licencias de Fabric y límites de Azure SQL, consultadas el 12-09-2026.</p>
+      </div>
+      <div class="panel dato"><span class="n">2 GB</span><span class="l">de RAM disponibles como mínimo para Power BI Desktop, la única pieza de las nueve que se instala en una computadora</span></div>
+    </div>
+  </section>
+  <section class="contenido" data-background-color="#000000">
+    <div class="marca"><span class="chip"><img src="assets/azure.svg" alt="Microsoft Azure"></span><h2>Azure · la página de precios de Microsoft Fabric</h2></div>
+    <img class="captura" src="assets/azure-fabric-precios-2026-09-12.png" alt="Captura real de la página de precios de Microsoft Fabric">
+    <p class="fuente">Captura real de azure.microsoft.com/pricing/details/microsoft-fabric, tomada el 12 de septiembre de 2026, región East US, vista mensual. Nada de maquetas.</p>
+  </section>
+</section>
+
+<!-- 16. MATRIZ -->
+<section class="contenido" data-background-color="#000000">
+  <h2 class="hito">Las tres marcas en una matriz</h2>
+  <p style="font-size:.6em;color:var(--mute);margin:0 0 .5em">Precios en USD, región de Estados Unidos, consultados el 12-09-2026; entre paréntesis, pesos al FIX de 16.9707. &nbsp; <button class="control" data-solo-diferencias>Mostrar sólo donde difieren</button></p>
+  <table>
+    <thead><tr><th>Criterio</th><th>AWS</th><th>Google Cloud</th><th>Azure</th></tr></thead>
+    <tbody>
+      <tr><td>Unidad de cobro del Big data</td><td>nodo-hora o RPU-hora (Redshift)</td><td>TiB consultado o slot-hora (BigQuery)</td><td>unidad de capacidad-hora (Fabric)</td></tr>
+      <tr><td>Entrada más barata al Big data</td><td>ra3.large USD 0.543/h (9.22 MXN)</td><td>1 TiB gratis al mes, luego USD 6.25/TiB (106.07 MXN)</td><td>F2 USD 0.36/h (6.11 MXN)</td></tr>
+      <tr><td>Base de datos mínima</td><td>db.t4g.micro USD 0.016/h (0.27 MXN)</td><td>db-f1-micro USD 0.0105/h (0.18 MXN)</td><td>Basic USD 4.8971/mes (83.11 MXN)</td></tr>
+      <tr><td>Tablero por usuario al mes</td><td>Author USD 24 (407.30 MXN), Reader USD 3 (50.91 MXN)</td><td>gratis; Pro USD 9 (152.74 MXN)</td><td>Pro USD 14 (237.59 MXN)</td></tr>
+      <tr><td>Crédito o prueba inicial</td><td>USD 300 por 90 días (Redshift Serverless); hasta USD 200 en RDS</td><td>USD 300 por 90 días; 1 TiB y 10 GiB gratis cada mes</td><td>60 días de Fabric; Azure SQL gratis permanente (100,000 vCore-s)</td></tr>
+      <tr class="igual"><td>Formatos abiertos que lee sin cargar</td><td>Parquet, ORC, Avro, JSON, CSV en S3</td><td>Parquet, ORC, Avro, JSON, CSV, Iceberg en Cloud Storage</td><td>Delta Parquet e Iceberg en OneLake</td></tr>
+      <tr class="igual"><td>Drivers estándar SQL</td><td>JDBC y ODBC</td><td>JDBC y ODBC</td><td>JDBC y ODBC</td></tr>
+      <tr class="igual"><td>Cliente mínimo</td><td>navegador soportado y conexión</td><td>navegador soportado y conexión</td><td>navegador soportado y conexión (Desktop pide Windows de 64 bits)</td></tr>
+      <tr><td>Instancia mínima de base</td><td>2 vCPU, 1 GiB</td><td>vCPU compartida, 0.6 GiB</td><td>menos de 1 vCore, 2 GB</td></tr>
+    </tbody>
+  </table>
+  <p class="fuente">Las filas marcadas como iguales se ocultan con el botón. Fuentes en la última diapositiva.</p>
+</section>
+
+<!-- 17. DECISOR -->
+<section class="contenido" data-background-color="#000000">
+  <h2 class="hito">Cuál te conviene según tres preguntas</h2>
+  <form class="decisor" data-decisor>
+    <fieldset><legend>¿Cuántos datos vas a consultar al mes?</legend>
+      <label><input type="radio" name="q1" value="b">Menos de un tebibyte y pocos gigabytes guardados.</label>
+      <label><input type="radio" name="q1" value="a">Cargas continuas que justifican un clúster encendido.</label>
+      <label><input type="radio" name="q1" value="c">Datos que ya viven en Excel, SQL Server o Microsoft 365.</label></fieldset>
+    <fieldset><legend>¿Qué usa ya la organización?</legend>
+      <label><input type="radio" name="q2" value="a">PostgreSQL, S3 o servicios de AWS.</label>
+      <label><input type="radio" name="q2" value="b">Google Workspace, Sheets o Analytics.</label>
+      <label><input type="radio" name="q2" value="c">Microsoft 365, SQL Server o Teams.</label></fieldset>
+    <fieldset><legend>¿Cuánto puedes pagar por cada persona que vea tableros?</legend>
+      <label><input type="radio" name="q3" value="b">Nada: los tableros tienen que ser gratuitos.</label>
+      <label><input type="radio" name="q3" value="a">Poco por muchos lectores, más por quienes los construyen.</label>
+      <label><input type="radio" name="q3" value="c">Una licencia mensual por usuario, como el resto de Microsoft.</label></fieldset>
+    <div class="panel resultado" data-resultado>Contesta las tres y aquí aparece la recomendación.</div>
+  </form>
+</section>
+
+<!-- 18. CONCLUSIÓN -->
+<section class="cierre" data-background-color="#000000">
+  <div class="panel"></div>
+  <div class="texto">
+    <h2 class="hito">Conclusión</h2>
+    <p>Puestas una junto a otra, las tres marcas cobran la base de datos casi igual, entre 0.0105 y 0.016 dólares la hora, y leen los mismos formatos abiertos, así que ni el costo de entrada ni la interoperabilidad las separan; lo que las separa es la unidad con la que miden el Big data y el tablero: nodo, tebibyte o capacidad, y usuario de pago o usuario gratuito. Chopra (2017) advierte que la nube "no es una solución rápida" y exige pensarla antes de adoptarla (p. 14); esta comparación confirma dónde hay que pensar: en cuántos datos se consultan y cuántas personas leen los tableros, porque ahí una decisión de 0.36 dólares la hora se vuelve una de 262 al mes. Si tuviera que elegir hoy para un proyecto que arranca de cero, empezaría en Google Cloud por el tebibyte gratuito y el tablero sin costo, y cambiaría de marca sólo cuando los datos ya vivieran en la plataforma de alguna otra.</p>
+  </div>
+</section>
+
+<!-- 19. REFERENCIAS -->
+<section class="contenido" data-background-color="#000000">
+  <h2 class="hito">Referencias</h2>
+  <div class="refs">
+<p>Amazon Web Services. (2026). <i>Amazon Quick Sight pricing</i>. AWS. https://aws.amazon.com/quicksight/pricing/</p>
+<p>Amazon Web Services. (2026). <i>Amazon RDS for PostgreSQL pricing</i>. AWS. https://aws.amazon.com/rds/postgresql/pricing/</p>
+<p>Amazon Web Services. (2026). <i>Amazon Redshift pricing</i>. AWS. https://aws.amazon.com/redshift/pricing/</p>
+<p>Amazon Web Services. (2026). <i>Amazon Redshift provisioned clusters</i>. Amazon Redshift Management Guide. https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-clusters.html</p>
+<p>Amazon Web Services. (2026). <i>Amazon Redshift Spectrum</i>. Amazon Redshift Database Developer Guide. https://docs.aws.amazon.com/redshift/latest/dg/c-using-spectrum.html</p>
+<p>Amazon Web Services. (2026). <i>Configuring connections in Amazon Redshift</i>. Amazon Redshift Management Guide. https://docs.aws.amazon.com/redshift/latest/mgmt/configuring-connections.html</p>
+<p>Amazon Web Services. (2026). <i>DB instance classes</i>. Amazon RDS User Guide. https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.DBInstanceClass.html</p>
+<p>Amazon Web Services. (2026). <i>Supported browsers</i>. Amazon Quick Sight User Guide. https://docs.aws.amazon.com/quicksight/latest/user/supported-browsers.html</p>
+<p>Amazon Web Services. (2026). <i>Supported data sources</i>. Amazon Quick Sight User Guide. https://docs.aws.amazon.com/quicksight/latest/user/supported-data-sources.html</p>
+<p>Amazon Web Services. (2026). <i>What is Amazon Relational Database Service (Amazon RDS)?</i> Amazon RDS User Guide. https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Welcome.html</p>
+<p>Amazon Web Services. (2026). <i>Zero-ETL integrations</i>. Amazon Redshift Management Guide. https://docs.aws.amazon.com/redshift/latest/mgmt/zero-etl-using.html</p>
+<p>Banco de México. (2026). <i>Tipos de cambio y resultados históricos de las subastas</i>. Sistema de Información Económica. https://www.banxico.org.mx/tipcamb/tipCamMIAction.do</p>
+<p>Chopra, R. (2017). <i>Cloud computing: An introduction</i>. Mercury Learning and Information.</p>
+<p>Google Cloud. (2026). <i>BigQuery pricing</i>. Google Cloud. https://cloud.google.com/bigquery/pricing</p>
+<p>Google Cloud. (2026). <i>Cloud SQL overview</i>. Google Cloud Documentation. https://docs.cloud.google.com/sql/docs/introduction</p>
+<p>Google Cloud. (2026). <i>Cloud SQL pricing</i>. Google Cloud. https://cloud.google.com/sql/pricing</p>
+<p>Google Cloud. (2026). <i>Data sources and connectors</i>. Google Cloud Documentation. https://docs.cloud.google.com/looker/docs/studio/about-data-sources</p>
+<p>Google Cloud. (2026). <i>Free cloud features and trial offer</i>. Google Cloud Documentation. https://docs.cloud.google.com/free/docs/free-cloud-features</p>
+<p>Google Cloud. (2026). <i>Introduction to external data sources</i>. Google Cloud Documentation. https://docs.cloud.google.com/bigquery/docs/external-data-sources</p>
+<p>Google Cloud. (2026). <i>Looker Studio: Business insights visualizations</i>. Google Cloud. https://cloud.google.com/looker-studio</p>
+<p>Google Cloud. (2026). <i>ODBC and JDBC drivers for BigQuery</i>. Google Cloud Documentation. https://docs.cloud.google.com/bigquery/docs/reference/odbc-jdbc-drivers</p>
+<p>Google Cloud. (2026). <i>What you need to use Looker Studio</i>. Google Cloud Documentation. https://docs.cloud.google.com/looker/docs/studio/what-you-need-to-use-looker-studio</p>
+<p>Microsoft. (2023). <i>DTU resource limits single databases</i>. Microsoft Learn. https://learn.microsoft.com/en-us/azure/azure-sql/database/resource-limits-dtu-single-databases</p>
+<p>Microsoft. (2025). <i>Power BI data sources</i>. Microsoft Learn. https://learn.microsoft.com/en-us/power-bi/connect-data/power-bi-data-sources</p>
+<p>Microsoft. (2025). <i>Supported browsers for Power BI and Fabric</i>. Microsoft Learn. https://learn.microsoft.com/en-us/power-bi/fundamentals/power-bi-browsers</p>
+<p>Microsoft. (2026). <i>Azure SQL Database single database pricing</i>. Microsoft Azure. https://azure.microsoft.com/en-us/pricing/details/azure-sql-database/single/</p>
+<p>Microsoft. (2026). <i>Azure Synapse Analytics pricing</i>. Microsoft Azure. https://azure.microsoft.com/en-us/pricing/details/synapse-analytics/</p>
+<p>Microsoft. (2026). <i>Connection libraries for Microsoft SQL Database</i>. Microsoft Learn. https://learn.microsoft.com/en-us/sql/connect/sql-connection-libraries</p>
+<p>Microsoft. (2026). <i>Download Power BI Desktop</i>. Microsoft Learn. https://learn.microsoft.com/en-us/power-bi/fundamentals/desktop-get-the-desktop</p>
+<p>Microsoft. (2026). <i>Fabric trial capacity</i>. Microsoft Learn. https://learn.microsoft.com/en-us/fabric/fundamentals/fabric-trial</p>
+<p>Microsoft. (2026). <i>Microsoft Fabric pricing</i>. Microsoft Azure. https://azure.microsoft.com/en-us/pricing/details/microsoft-fabric/</p>
+<p>Microsoft. (2026). <i>Mirroring in Microsoft Fabric</i>. Microsoft Learn. https://learn.microsoft.com/en-us/fabric/mirroring/overview</p>
+<p>Microsoft. (2026). <i>OneLake, the unified data lake</i>. Microsoft Learn. https://learn.microsoft.com/en-us/fabric/onelake/onelake-overview</p>
+<p>Microsoft. (2026). <i>Power BI pricing</i>. Microsoft Power Platform. https://www.microsoft.com/en-us/power-platform/products/power-bi/pricing</p>
+<p>Microsoft. (2026). <i>Serverless compute tier for Azure SQL Database</i>. Microsoft Learn. https://learn.microsoft.com/en-us/azure/azure-sql/database/serverless-tier-overview</p>
+<p>Microsoft. (2026). <i>Supported browsers and devices for Azure portal</i>. Microsoft Learn. https://learn.microsoft.com/en-us/azure/azure-portal/azure-portal-supported-browsers-devices</p>
+<p>Microsoft. (2026). <i>Try Azure SQL Database for free</i>. Microsoft Learn. https://learn.microsoft.com/en-us/azure/azure-sql/database/free-offer</p>
+<p>Microsoft. (2026). <i>Understand Microsoft Fabric licenses and capacity</i>. Microsoft Learn. https://learn.microsoft.com/en-us/fabric/enterprise/licenses</p>
+<p>Microsoft. (2026). <i>Unify data sources with OneLake shortcuts</i>. Microsoft Learn. https://learn.microsoft.com/en-us/fabric/onelake/onelake-shortcuts</p>
+  </div>
+</section>
+
+</div></div>
+
+<div class="pie">
+  <span><a href="#/menu">Menú</a>← → para moverte · ↓ dentro de cada marca · Esc para ver todo</span>
+  <span class="firma">By Hiram Acevedo</span>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/reveal.min.js"></script>
+<script>
+Reveal.initialize({
+  hash:true, slideNumber:'c/t', progress:true, controls:true, controlsTutorial:false,
+  transition:'fade', backgroundTransition:'none', width:1280, height:720, margin:0.05, center:false, touch:true, controlsLayout:'edges',
+});
+// menú: cada tarjeta lleva a la PRIMERA diapositiva de su marca, aunque ya se haya visitado otra
+document.querySelectorAll('a.tarjeta').forEach(a=>{
+  a.addEventListener('click',e=>{
+    const sec=document.getElementById(a.getAttribute('href').replace('#/',''));
+    if(!sec) return; e.preventDefault();
+    const i=Reveal.getIndices(sec.querySelector('section')||sec); Reveal.slide(i.h,0);
+  });
+});
+// pestañas
+document.querySelectorAll('[data-tabs]').forEach(tabs=>{
+  tabs.addEventListener('click',e=>{
+    const b=e.target.closest('button[data-panel]'); if(!b) return;
+    tabs.querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));
+    const sec=tabs.closest('section');
+    sec.querySelectorAll('.panelt').forEach(p=>p.classList.toggle('on',p.id===b.dataset.panel));
+  });
+});
+// sólo diferencias
+document.querySelectorAll('[data-solo-diferencias]').forEach(b=>{
+  b.addEventListener('click',()=>{
+    const on=b.classList.toggle('on');
+    b.closest('section').querySelectorAll('tr.igual').forEach(tr=>tr.classList.toggle('oculta',on));
+    b.textContent=on?'Mostrar todo':'Mostrar sólo donde difieren';
+  });
+});
+// decisor: mayoría simple; en empate a uno gana la pregunta 2 (qué usa ya la organización)
+const RECOMENDACION={
+  a:'AWS: RDS arranca en USD 0.016 la hora y Quick Sight cobra USD 3 por lector, así que la factura crece con quienes construyen tableros, no con quienes los leen; Redshift se paga desde el primer nodo, USD 0.543 la hora.',
+  b:'Google Cloud: con menos de 1 TiB consultado al mes y Looker Studio gratuito, el único cargo fijo es la base de datos, desde USD 0.0105 la hora; los formatos abiertos de BigQuery evitan quedar atado.',
+  c:'Azure: Fabric F2 a USD 0.36 la hora une almacén y tableros sobre Delta Parquet, y Azure SQL Basic cuesta USD 4.90 al mes; conviene cuando los usuarios ya tienen licencias de Microsoft y Power BI Pro se suma a ellas.'
+};
+document.querySelectorAll('[data-decisor]').forEach(f=>{
+  f.addEventListener('change',()=>{
+    const v=['q1','q2','q3'].map(q=>f.querySelector(`input[name=${q}]:checked`)?.value);
+    if(v.some(x=>!x)) return;
+    const c={};v.forEach(x=>c[x]=(c[x]||0)+1);
+    let g=Object.keys(c).sort((x,y)=>c[y]-c[x])[0];
+    if(Object.keys(c).length===3) g=v[1];
+    f.querySelector('[data-resultado]').textContent=RECOMENDACION[g];
+  });
+});
+</script>
+</body>
+</html>
